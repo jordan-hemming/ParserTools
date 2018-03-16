@@ -9,6 +9,11 @@ namespace Penguin.ParserTools
     /// </summary>
     public static class StringUtilities
     {
+        /// <summary>
+        /// Ecapes the given string.
+        /// </summary>
+        /// <param name="s">The specified string.</param>
+        /// <returns>The escaped string.</returns>
         public static string Escape(this string s)
         {
             if (s == null)
@@ -69,6 +74,11 @@ namespace Penguin.ParserTools
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Escapes the given string and enaculates in double quotes.
+        /// </summary>
+        /// <param name="s">The specified string.</param>
+        /// <returns>The escaped and doubole quoted string.</returns>
         public static string EscapeAndQuote(this string s)
         {
             if (s == null)
@@ -80,6 +90,11 @@ namespace Penguin.ParserTools
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Unescapes the given string.
+        /// </summary>
+        /// <param name="s">The specified string.</param>
+        /// <returns>The unescaped string.</returns>
         public static string Unescape(this string s)
         {
             if (s == null)
@@ -165,6 +180,11 @@ namespace Penguin.ParserTools
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Unescapes the given string and removes enclosing double quotes.
+        /// </summary>
+        /// <param name="s">The specified string.</param>
+        /// <returns>The unescapes and unquoted string.</returns>
         public static string UnescapeAndUnquote(this string s)
         {
             if (s == null)

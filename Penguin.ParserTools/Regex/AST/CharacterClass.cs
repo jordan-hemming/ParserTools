@@ -9,6 +9,11 @@ namespace Penguin.ParserTools.Regex.AST
     /// </summary>
     public abstract class CharacterClass
     {
+        /// <summary>
+        /// Attempt to match the specified character to the character class.
+        /// </summary>
+        /// <param name="c">The character to match.</param>
+        /// <returns>True if the match is successful.</returns>
         public abstract bool Match(char c);
     }
 }

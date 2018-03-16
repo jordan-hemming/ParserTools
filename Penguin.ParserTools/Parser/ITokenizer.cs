@@ -13,6 +13,11 @@ namespace Penguin.ParserTools.Parser
         where TToken: Token<TType>
         where TType: IEquatable<TType>
     {
+        /// <summary>
+        /// Tokenizes the input.
+        /// </summary>
+        /// <param name="input">The input to tokenize.</param>
+        /// <returns>The list of tokens tokenized.</returns>
         IReadOnlyList<TToken> Tokenize(string input);
     }
 }

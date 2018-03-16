@@ -10,6 +10,10 @@ namespace Penguin.ParserTools.Parser
     /// <typeparam name="TResult">The type of the result of the parse.</typeparam>
     public interface IParser<TResult>
     {
+        /// <summary>
+        /// Parses the token list.
+        /// </summary>
+        /// <returns></returns>
         TResult Parse();
     }
 }

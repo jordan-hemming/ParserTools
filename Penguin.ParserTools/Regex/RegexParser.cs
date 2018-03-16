@@ -9,15 +9,19 @@ namespace Penguin.ParserTools.Regex
     /// <summary>
     /// Parser for Regex expressions.
     /// </summary>
-    public class RegexParser : BaseParser<RegexToken, RegexTokenType>, IParser<RegexNode>
+    public class RegexParser : BaseParser<RegexToken, RegexTokenType>, IParser<RegexFSM>, IParser<RegexNode>
     {
+        /// <summary>
+        /// Create a RegexParser using the specified token list as input.
+        /// </summary>
+        /// <param name="tokens">The token list to use as input.</param>
         public RegexParser(IEnumerable<RegexToken> tokens)
             : base(tokens)
         {
             
         }
-
-        protected char ParseBoxCharacter()
+        
+        private char ParseBoxCharacter()
         {
             if (Accept(RegexTokenSubType.Backslash))
             {
@@ -31,7 +35,7 @@ namespace Penguin.ParserTools.Regex
             }
         }
 
-        protected CharacterClass ParseBoxRange()
+        private CharacterClass ParseBoxRange()
         {
             var from = ParseBoxCharacter();
             if (Accept(RegexTokenSubType.Range))
@@ -44,8 +48,8 @@ namespace Penguin.ParserTools.Regex
                 return new SingleCharacterClass(from);
             }
         }
-        
-        protected CharacterClass ParseBoxClass()
+
+        private CharacterClass ParseBoxClass()
         {
             bool invert = false;
             CharacterClass result = new NullCharacterClass();
@@ -61,7 +65,7 @@ namespace Penguin.ParserTools.Regex
                 return result;
         }
 
-        protected CharacterClass ParseCharacterClass()
+        private CharacterClass ParseCharacterClass()
         {
             if (Accept(RegexTokenSubType.SpecialClass, out var specialToken))
             {
@@ -87,7 +91,7 @@ namespace Penguin.ParserTools.Regex
             }
         }
 
-        protected RegexNode ParseAtom()
+        private RegexNode ParseAtom()
         {
             if (Accept(RegexTokenSubType.OpenParan))
             {
@@ -101,7 +105,7 @@ namespace Penguin.ParserTools.Regex
             }
         }
 
-        protected RegexNode ParseArityNode()
+        private RegexNode ParseArityNode()
         {
             var result = ParseAtom();
             if (Accept(RegexTokenSubType.ZeroOrMore))
@@ -113,7 +117,7 @@ namespace Penguin.ParserTools.Regex
             return result;
         }
 
-        protected RegexNode ParseSequence()
+        private RegexNode ParseSequence()
         {
             var result = ParseArityNode();
             while (!EndOfFile() && !Peek(RegexTokenSubType.Choice) && !Peek(RegexTokenSubType.CloseParan))
@@ -121,7 +125,7 @@ namespace Penguin.ParserTools.Regex
             return result;
         }
 
-        protected RegexNode ParseRegex()
+        private RegexNode ParseRegex()
         {
             var result = ParseSequence();
             while (Accept(RegexTokenSubType.Choice))
@@ -129,7 +133,20 @@ namespace Penguin.ParserTools.Regex
             return result;
         }
 
-        public RegexNode Parse()
+        /// <summary>
+        /// Parse the input and return a RegexFSM.
+        /// </summary>
+        /// <returns>The RegexFSM represented by the input.</returns>
+        public RegexFSM Parse()
+        {
+            return ParseRegex().BuildFSM();
+        }
+        
+        /// <summary>
+        /// Parse the input and return a RegexNode.
+        /// </summary>
+        /// <returns>The RegexNode represented by the input.</returns>
+        RegexNode IParser<RegexNode>.Parse()
         {
             return ParseRegex();
         }

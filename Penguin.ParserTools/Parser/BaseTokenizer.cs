@@ -17,19 +17,36 @@ namespace Penguin.ParserTools.Parser
     {
         private List<TokenDefintion<TType>> _tokenDefintions = new List<TokenDefintion<TType>>();
 
+        /// <summary>
+        /// Defines a pattern to ignore.
+        /// </summary>
+        /// <param name="pattern">The Regex pattern to ignore.</param>
         public void DefineIgnore(string pattern)
         {
             _tokenDefintions.Add(new TokenDefintion<TType>(pattern));
         }
 
+        /// <summary>
+        /// Defines a pattern as a token type.
+        /// </summary>
+        /// <param name="type">The value to represent the type of the token.</param>
+        /// <param name="pattern">The Regex pattern to match as the token.</param>
         public void DefineToken(TType type, string pattern)
         {
             _tokenDefintions.Add(new TokenDefintion<TType>(type, pattern, _tokenDefintions.Count));
         }
 
+        /// <summary>
+        /// Function to create a token. Overriden in sub-classes.
+        /// </summary>
+        /// <param name="type">The type representing the variety of token.</param>
+        /// <param name="text">The text matching the Regex pattern.</param>
+        /// <param name="line">The line number of the start of the token.</param>
+        /// <param name="col">The column number of the start of the token.</param>
+        /// <returns>The created token object.</returns>
         protected abstract TToken CreateToken(TType type, string text, int line, int col);
 
-        protected TToken TokenizeNext(string input, ref int index, ref int line, ref int col)
+        private TToken TokenizeNext(string input, ref int index, ref int line, ref int col)
         {
             int startAt = index;
             int startLine = line;
@@ -92,6 +109,11 @@ namespace Penguin.ParserTools.Parser
             return CreateToken(resultTokenDef.Type, text, startLine, startCol);
         }
 
+        /// <summary>
+        /// Tokenizes the input.
+        /// </summary>
+        /// <param name="input">The input to tokenize.</param>
+        /// <returns>The list of tokens tokenized.</returns>
         public IReadOnlyList<TToken> Tokenize(string input)
         {
             List<TToken> result = new List<TToken>();
@@ -107,8 +129,8 @@ namespace Penguin.ParserTools.Parser
             return result;
         }
     }
-
-    public class TokenDefintion<TType>
+    
+    class TokenDefintion<TType>
     {
         public TType Type { get; }
         public RegexFSM Regex { get; }
@@ -124,7 +146,7 @@ namespace Penguin.ParserTools.Parser
             var tokenizer = new RegexTokenizer();
             var tokens = tokenizer.Tokenize(pattern);
             var compiler = new RegexParser(tokens);
-            Regex = compiler.Parse().BuildFSM();
+            Regex = compiler.Parse();
         }
 
         public TokenDefintion(string pattern)
@@ -135,7 +157,7 @@ namespace Penguin.ParserTools.Parser
             var tokenizer = new RegexTokenizer();
             var tokens = tokenizer.Tokenize(pattern);
             var compiler = new RegexParser(tokens);
-            Regex = compiler.Parse().BuildFSM();
+            Regex = compiler.Parse();
         }
     }
 }

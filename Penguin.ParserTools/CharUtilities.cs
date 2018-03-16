@@ -9,6 +9,12 @@ namespace Penguin.ParserTools
     /// </summary>
     public static class CharUtilities
     {
+        /// <summary>
+        /// Checks if character is a hex digit.
+        /// </summary>
+        /// <param name="c">The character to check.</param>
+        /// <param name="val">The numerical representation of the hex digit.</param>
+        /// <returns>True if the character is a hex digit.</returns>
         public static bool IsHexDigit(char c, out int val)
         {
             if (c >= '0' && c <= '9')
@@ -33,6 +39,11 @@ namespace Penguin.ParserTools
             }
         }
 
+        /// <summary>
+        /// Checks if character is a hex digit.
+        /// </summary>
+        /// <param name="c">The character to check.</param>
+        /// <returns>True if the charcter is a hex digit.</returns>
         public static bool IsHexDigit(char c)
         {
             return IsHexDigit(c, out int val);

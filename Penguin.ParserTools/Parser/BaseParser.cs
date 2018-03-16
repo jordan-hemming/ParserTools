@@ -16,17 +16,29 @@ namespace Penguin.ParserTools.Parser
         private List<TToken> _tokens;
         private int _tokenIndex;
 
+        /// <summary>
+        /// Construct the parser using the specified token list as a source.
+        /// </summary>
+        /// <param name="tokens">The token source.</param>
         public BaseParser(IEnumerable<TToken> tokens)
         {
             _tokens = new List<TToken>(tokens);
             _tokenIndex = 0;
         }
 
+        /// <summary>
+        /// Checks if the end of the token list is reached.
+        /// </summary>
+        /// <returns>True if the end of the token list is reached.</returns>
         protected bool EndOfFile()
         {
             return _tokenIndex >= _tokens.Count;
         }
 
+        /// <summary>
+        /// Returns the next token in the token list and advances by one token.
+        /// </summary>
+        /// <returns>The next token in the token list.</returns>
         protected TToken Next()
         {
             if (EndOfFile())
@@ -35,6 +47,10 @@ namespace Penguin.ParserTools.Parser
                 return _tokens[_tokenIndex++];
         }
 
+        /// <summary>
+        /// Returns the previous token in the token list.
+        /// </summary>
+        /// <returns>The previous token in the token list.</returns>
         protected TToken Prev()
         {
             if (_tokenIndex > 0)
@@ -43,6 +59,11 @@ namespace Penguin.ParserTools.Parser
                 return null;
         }
 
+        /// <summary>
+        /// Return the nth next token in the token list.
+        /// </summary>
+        /// <param name="n">How far forward in the token list to look (default = 0).</param>
+        /// <returns>The nth token in the token list.</returns>
         protected TToken Peek(int n = 0)
         {
             if (_tokenIndex + n >= _tokens.Count)
@@ -51,18 +72,32 @@ namespace Penguin.ParserTools.Parser
                 return _tokens[_tokenIndex + n];
         }
 
+        /// <summary>
+        /// Checks if the nth token in the token list is of the specified type.
+        /// </summary>
+        /// <param name="type">The type to check the token against.</param>
+        /// <param name="n">The nth token in the token list.</param>
+        /// <returns>True if the token is of the specified type.</returns>
         protected bool Peek(TType type, int n = 0)
         {
             var token = Peek(n);
             return token != null && token.Type.Equals(type);
         }
 
+        /// <summary>
+        /// Raises an exception if the end of the token list has not been reached.
+        /// </summary>
         protected void ExpectEOF()
         {
             if (!EndOfFile())
                 throw new UnexpectedTokenException<TToken, TType>(_tokens[_tokenIndex]);
         }
 
+        /// <summary>
+        /// Raises an exception if the next token is not of the specified type.
+        /// </summary>
+        /// <param name="type">The token type to check against.</param>
+        /// <param name="token">The token that was matched.</param>
         protected void Expect(TType type, out TToken token)
         {
             token = Next();
@@ -72,11 +107,21 @@ namespace Penguin.ParserTools.Parser
                 throw new UnexpectedTokenException<TToken, TType>(token, type);
         }
 
+        /// <summary>
+        /// Raises an exception if the next token is not the specified type.
+        /// </summary>
+        /// <param name="type">The token type to check against.</param>
         protected void Expect(TType type)
         {
             Expect(type, out var token);
         }
 
+        /// <summary>
+        /// Checks if the next token is of the specified type, and if it is advances to the next token.
+        /// </summary>
+        /// <param name="type">The token type to check against.</param>
+        /// <param name="token">The token that was matched.</param>
+        /// <returns>True if the token was matched.</returns>
         protected bool Accept(TType type, out TToken token)
         {
             token = Peek();
@@ -86,6 +131,11 @@ namespace Penguin.ParserTools.Parser
             return true;
         }
 
+        /// <summary>
+        /// Checks if the next token is of the specified type, and if it is advances to the next token.
+        /// </summary>
+        /// <param name="type">The token type to check against.</param>
+        /// <returns>True if the token was matched.</returns>
         protected bool Accept(TType type)
         {
             return Accept(type, out var token);

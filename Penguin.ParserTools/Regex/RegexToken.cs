@@ -12,12 +12,24 @@ namespace Penguin.ParserTools.Regex
     /// </summary>
     public class RegexToken : Token<RegexTokenType>
     {
+        /// <summary>
+        /// 'normalCharacter' character represented by the token.
+        /// </summary>
         public char? NormalCharacter { get; }
+        /// <summary>
+        /// 'escapeCharacter' character represented by the token.
+        /// </summary>
         public char? EscapeCharacter { get; }
+        /// <summary>
+        /// 'specialClass' character class represented by the token.
+        /// </summary>
         public CharacterClass SpecialClass { get; }
+        /// <summary>
+        /// 'escapeClass' charcter class represented by the token.
+        /// </summary>
         public CharacterClass EscapeClass { get; }
 
-        public RegexToken(char c, int line, int col, char? normalCharacter = null, char? escapeCharacter = null, CharacterClass specialClass = null, CharacterClass escapeClass = null, params RegexTokenSubType[] otherSubTypes)
+        private RegexToken(char c, int line, int col, char? normalCharacter = null, char? escapeCharacter = null, CharacterClass specialClass = null, CharacterClass escapeClass = null, params RegexTokenSubType[] otherSubTypes)
             : base(c.ToString(), null, line, col)
         {
             var subtypes = new HashSet<RegexTokenSubType>(otherSubTypes);
@@ -44,6 +56,13 @@ namespace Penguin.ParserTools.Regex
             Type = new RegexTokenType(subtypes);
         }
 
+        /// <summary>
+        /// Creates a RegexToken from the specified character.
+        /// </summary>
+        /// <param name="c">The character from which to create the RegexToken.</param>
+        /// <param name="line">The line number of the source character.</param>
+        /// <param name="col">"The column number of the source character.</param>
+        /// <returns></returns>
         public static RegexToken FromChar(char c, int line, int col)
         {
             switch (c)
@@ -113,47 +132,125 @@ namespace Penguin.ParserTools.Regex
         }
     }
 
+    /// <summary>
+    /// Enum representing all RegexType subtypes.
+    /// </summary>
     public enum RegexTokenSubType
     {
+        /// <summary>
+        /// 'normalCharacter' character
+        /// </summary>
         NormalCharacter = 0x0001,
+        /// <summary>
+        /// 'escapeCharacter' character
+        /// </summary>
         EscapeCharacter = 0x0002,
+        /// <summary>
+        /// 'specialClass' character class.
+        /// </summary>
         SpecialClass = 0x0004,
+        /// <summary>
+        /// 'escapeClass' character class.
+        /// </summary>
         EscapeClass = 0x0008,
+        /// <summary>
+        /// The '^' character.
+        /// </summary>
         Not = 0x0010,
+        /// <summary>
+        /// The '[' character.
+        /// </summary>
         OpenBracket = 0x0020,
+        /// <summary>
+        /// The ']' character.
+        /// </summary>
         CloseBracket = 0x0040,
+        /// <summary>
+        /// The '(' character.
+        /// </summary>
         OpenParan = 0x0080,
+        /// <summary>
+        /// The ')' character.
+        /// </summary>
         CloseParan = 0x0100,
+        /// <summary>
+        /// The '-' character.
+        /// </summary>
         Range = 0x0200,
+        /// <summary>
+        /// The '\\' character.
+        /// </summary>
         Backslash = 0x0400,
+        /// <summary>
+        /// The '+' character.
+        /// </summary>
         OneOrMore = 0x0800,
+        /// <summary>
+        /// The '*' character.
+        /// </summary>
         ZeroOrMore = 0x1000,
+        /// <summary>
+        /// The '?' character.
+        /// </summary>
         ZeroOrOne = 0x2000,
+        /// <summary>
+        /// The 'x' character.
+        /// </summary>
         HexIndicator = 0x4000,
+        /// <summary>
+        /// The 'u' character.
+        /// </summary>
         UnicodeIndicator = 0x8000,
+        /// <summary>
+        /// The characters 0'-'9', 'a'-'f' and 'A'-'F'.
+        /// </summary>
         HexDigit = 0x10000,
+        /// <summary>
+        /// The '|' character.
+        /// </summary>
         Choice = 0x20000
     }
 
+    /// <summary>
+    /// Class representing a RegexToken type. Can be one or more sub types.
+    /// </summary>
     public class RegexTokenType : IEquatable<RegexTokenType>
     {
         private HashSet<RegexTokenSubType> _subtypes;
         
+        /// <summary>
+        /// Creates the object from a list of subtypes.
+        /// </summary>
+        /// <param name="subtypes">The list of subtypes.</param>
         public RegexTokenType(params RegexTokenSubType[] subtypes)
         {
             _subtypes = new HashSet<RegexTokenSubType>(subtypes);
         }
 
+        /// <summary>
+        /// Creates the object from a collection of subtypes.
+        /// </summary>
+        /// <param name="subTypes"></param>
         public RegexTokenType(IEnumerable<RegexTokenSubType> subTypes)
         {
             _subtypes = new HashSet<RegexTokenSubType>(subTypes);
         }
 
+        /// <summary>
+        /// Checks if another RegexTokenType object has at least one subtype in common.
+        /// </summary>
+        /// <param name="other">The other regexTokenType object.</param>
+        /// <returns>True if one or more subtypes are shared.</returns>
         public bool Equals(RegexTokenType other)
         {
             return _subtypes.Intersect(other._subtypes).Count() > 0;
         }
 
+        /// <summary>
+        /// Checks if another object is equal.
+        /// </summary>
+        /// <param name="obj">The other object.</param>
+        /// <returns>True if the objects are equal.</returns>
         public override bool Equals(object obj)
         {
             if (obj is RegexTokenType)
@@ -161,6 +258,10 @@ namespace Penguin.ParserTools.Regex
             return false;
         }
 
+        /// <summary>
+        /// Gets the hash code of the object.
+        /// </summary>
+        /// <returns>The hash code of the object.</returns>
         public override int GetHashCode()
         {
             int i = 0;
@@ -169,6 +270,11 @@ namespace Penguin.ParserTools.Regex
             return i;
         }
 
+
+        /// <summary>
+        /// Gets a string representation of the object.
+        /// </summary>
+        /// <returns>The string representation.</returns>
         public override string ToString()
         {
             if (_subtypes.Count == 1)
@@ -180,6 +286,10 @@ namespace Penguin.ParserTools.Regex
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Implicitly converts a single subtype into a full RegexTokenType containing only that subtype.
+        /// </summary>
+        /// <param name="subType">The subtype from which to create the RegexTokenType.</param>
         public static implicit operator RegexTokenType(RegexTokenSubType subType)
         {
             return new RegexTokenType(subType);

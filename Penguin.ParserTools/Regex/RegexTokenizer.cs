@@ -10,6 +10,11 @@ namespace Penguin.ParserTools.Regex
     /// </summary>
     public class RegexTokenizer : ITokenizer<RegexToken, RegexTokenType>
     {
+        /// <summary>
+        /// Tokenize the input.
+        /// </summary>
+        /// <param name="input">The input string.</param>
+        /// <returns>The list of RegexToken objects tokenized.</returns>
         public IReadOnlyList<RegexToken> Tokenize(string input)
         {
             List<RegexToken> result = new List<RegexToken>();
