@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penguin.ParserTools", "Penguin.ParserTools\Penguin.ParserTools.csproj", "{2485F3FC-2751-44A2-BD83-AA5D88CCBAEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Penguin.ParserTools", "Penguin.ParserTools\Penguin.ParserTools.csproj", "{2485F3FC-2751-44A2-BD83-AA5D88CCBAEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penguin.ParserTools.RegexTests", "Penguin.ParserTools.RegexTests\Penguin.ParserTools.RegexTests.csproj", "{10C345EC-A9BF-4FF9-AA39-3E0B2E45546E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2485F3FC-2751-44A2-BD83-AA5D88CCBAEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2485F3FC-2751-44A2-BD83-AA5D88CCBAEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2485F3FC-2751-44A2-BD83-AA5D88CCBAEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10C345EC-A9BF-4FF9-AA39-3E0B2E45546E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10C345EC-A9BF-4FF9-AA39-3E0B2E45546E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10C345EC-A9BF-4FF9-AA39-3E0B2E45546E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10C345EC-A9BF-4FF9-AA39-3E0B2E45546E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

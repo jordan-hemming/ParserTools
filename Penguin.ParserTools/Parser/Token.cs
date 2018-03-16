@@ -13,9 +13,34 @@ namespace Penguin.ParserTools.Parser
         public TTokenType Type { get; protected set; }
         public bool IsIgnored { get; protected set; }
 
-        public Token(string text, int line, int col, bool ignore = false)
+        public Token(string text, TTokenType type, int line, int col, bool ignore = false)
         {
+            Text = text;
+            Type = type;
+            LineNumber = line;
+            ColumnNumber = col;
+            IsIgnored = ignore;
+        }
 
+        public string ToString(bool showPosition)
+        {
+            var sb = new StringBuilder();
+            sb.Append(Text.EscapeAndQuote());
+            sb.Append(" : ");
+            sb.Append(Type.ToString());
+            if (showPosition)
+            {
+                sb.Append(" @ line: ");
+                sb.Append(LineNumber);
+                sb.Append(" col: ");
+                sb.Append(ColumnNumber);
+            }
+            return sb.ToString();
+        }
+
+        public override string ToString()
+        {
+            return ToString(false);
         }
     }
 }

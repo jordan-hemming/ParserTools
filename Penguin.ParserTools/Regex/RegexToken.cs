@@ -15,7 +15,7 @@ namespace Penguin.ParserTools.Regex
         public CharacterClass EscapeClass { get; }
 
         public RegexToken(char c, int line, int col, char? normalCharacter = null, char? escapeCharacter = null, CharacterClass specialClass = null, CharacterClass escapeClass = null, params RegexTokenSubType[] otherSubTypes)
-            : base(c.ToString(), line, col)
+            : base(c.ToString(), null, line, col)
         {
             var subtypes = new HashSet<RegexTokenSubType>(otherSubTypes);
             if (normalCharacter.HasValue)
@@ -124,9 +124,9 @@ namespace Penguin.ParserTools.Regex
         OneOrMore = 0x0800,
         ZeroOrMore = 0x1000,
         ZeroOrOne = 0x2000,
-        HexIndicator = 0x0400,
-        UnicodeIndicator = 0x0800,
-        HexDigit = 0x1000
+        HexIndicator = 0x4000,
+        UnicodeIndicator = 0x8000,
+        HexDigit = 0x10000
     }
 
     public class RegexTokenType : IEquatable<RegexTokenType>
@@ -161,6 +161,17 @@ namespace Penguin.ParserTools.Regex
             foreach (var subType in _subtypes)
                 i |= (int)subType;
             return i;
+        }
+
+        public override string ToString()
+        {
+            if (_subtypes.Count == 1)
+                return _subtypes.First().ToString();
+            var sb = new StringBuilder();
+            sb.Append("(");
+            sb.Append(string.Join(" and ", _subtypes));
+            sb.Append(")");
+            return sb.ToString();
         }
 
         public static implicit operator RegexTokenType(RegexTokenSubType subType)

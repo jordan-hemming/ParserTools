@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Penguin.ParserTools.Parser
 {
-    public class BaseParser<TToken, TType> 
+    public abstract class BaseParser<TToken, TType>
         where TToken: Token<TType> 
         where TType: IEquatable<TType>
     {
