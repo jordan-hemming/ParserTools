@@ -26,8 +26,11 @@ namespace Penguin.ParserTools.Parser
 
         protected TToken TokenizeNext(string input, ref int index, ref int line, ref int col)
         {
-            //Match first character
             int startAt = index;
+            int startLine = line;
+            int startCol = col;
+
+            //Match first character
             char c = input[index++];
             foreach (var tokenDef in _tokenDefintions)
             {
@@ -37,18 +40,29 @@ namespace Penguin.ParserTools.Parser
             var lastValidDefs = _tokenDefintions.Where(x => x.Regex.LastResult == RegexResult.Matched).ToList();
             if (!_tokenDefintions.Any(x => x.Regex.LastResult != RegexResult.NotMatched))
                 throw new InvalidTokenException(line, col);
+
+            //Increament line/col
+            int lastLine = startLine;
+            int lastCol = startCol;
             col += 1;
             if (c == '\n')
             {
                 line += 1;
                 col = 1;
             }
+
+            //Match addition characters
 			while (_tokenDefintions.Any(x => x.Regex.LastResult != RegexResult.NotMatched) && index < input.Length)
             {
+                //Match
                 lastValidDefs = _tokenDefintions.Where(x => x.Regex.LastResult == RegexResult.Matched).ToList();
                 c = input[index++];
                 foreach (var tokenDef in _tokenDefintions)
                     tokenDef.Regex.Match(c);
+
+                //Update line/col
+                lastLine = line;
+                lastCol = col;
                 col += 1;
                 if (c == '\n')
                 {
@@ -56,11 +70,21 @@ namespace Penguin.ParserTools.Parser
                     col = 1;
                 }
             }
+
+            //Backtrack
+            if (index < input.Length)
+            {
+                index -= 1;
+                line = lastLine;
+                col = lastCol;
+            }
+
+            //Get result token (or null for ignored tokens)
             var resultTokenDef = lastValidDefs.OrderByDescending(x => x.Priority).First();
             if (resultTokenDef.Ignore)
                 return null;
-            else
-                return CreateToken(resultTokenDef.Type, input.Substring(startAt, index - startAt - (index < input.Length ? 1 : 0)), line, col);
+            var text = input.Substring(startAt, index - startAt);
+            return CreateToken(resultTokenDef.Type, text, startLine, startCol);
         }
 
         public IReadOnlyList<TToken> Tokenize(string input)

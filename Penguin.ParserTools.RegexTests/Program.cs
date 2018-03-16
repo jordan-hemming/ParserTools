@@ -19,6 +19,7 @@ namespace Penguin.ParserTools.RegexTests
         public TestTokenizer()
         {
             DefineIgnore("\\s*");
+            DefineIgnore("//.*\\n");
             DefineToken("ident", "[a-zA-Z_][a-zA-Z0-9_]*");
             DefineToken("int", "[0-9]+");
             DefineToken("float", "[0-9]+\\.[0-9]+([eE][-+]?[0-9]+)?");
@@ -35,7 +36,9 @@ namespace Penguin.ParserTools.RegexTests
     {
         static void Main(string[] args)
         {
-            string input = "someIdent 8367 7384.24 hsudjs sajad";
+            string input = @"
+someIdent 8367                                  //example comment
+test 7384.24 hsudjs sajad 928.347e-126 6";
             var tokenizer = new TestTokenizer();
             var tokens = tokenizer.Tokenize(input);
             foreach (var token in tokens)
