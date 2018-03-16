@@ -13,6 +13,15 @@ namespace Penguin.ParserTools.Parser
         }
     }
 
+    public class InvalidTokenException : ParserException
+    {
+        public InvalidTokenException(int line, int col)
+            : base("Invalid token @ line: " + line + " col: " + col)
+        {
+
+        }
+    }
+
     public class ParserException<TToken, TTokenType> : ParserException
         where TToken: Token<TTokenType>
         where TTokenType: IEquatable<TTokenType>

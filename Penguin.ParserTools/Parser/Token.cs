@@ -11,15 +11,13 @@ namespace Penguin.ParserTools.Parser
         public int ColumnNumber { get; protected set; }
         public string Text { get; protected set; }
         public TTokenType Type { get; protected set; }
-        public bool IsIgnored { get; protected set; }
-
-        public Token(string text, TTokenType type, int line, int col, bool ignore = false)
+        
+        public Token(string text, TTokenType type, int line, int col)
         {
             Text = text;
             Type = type;
             LineNumber = line;
             ColumnNumber = col;
-            IsIgnored = ignore;
         }
 
         public string ToString(bool showPosition)
