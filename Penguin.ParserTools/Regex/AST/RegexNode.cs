@@ -6,6 +6,15 @@ namespace Penguin.ParserTools.Regex.AST
 {
     public abstract class RegexNode
     {
+        public abstract void BuildTransitions(HashSet<RegexState> states, RegexState startState, RegexState endState);
 
+        public RegexFSM BuildFSM()
+        {
+            var states = new HashSet<RegexState>();
+            var startState = new RegexState();
+            var endState = new RegexState();
+            BuildTransitions(states, startState, endState);
+            return new RegexFSM(states, startState, endState);
+        }
     }
 }

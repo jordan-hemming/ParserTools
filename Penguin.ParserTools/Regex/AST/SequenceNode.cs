@@ -38,5 +38,19 @@ namespace Penguin.ParserTools.Regex.AST
             else
                 _nodes.Add(node);
         }
+
+        public override void BuildTransitions(HashSet<RegexState> states, RegexState startState, RegexState endState)
+        {
+            var lastState = startState;
+            for (int i = 0; i < _nodes.Count - 1; i++)
+            {
+                var node = _nodes[i];
+                var nextState = new RegexState();
+                node.BuildTransitions(states, lastState, nextState);
+                states.Add(nextState);
+                lastState = nextState;
+            }
+            _nodes[_nodes.Count - 1].BuildTransitions(states, lastState, endState);
+        }
     }
 }

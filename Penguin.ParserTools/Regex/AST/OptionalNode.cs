@@ -12,5 +12,11 @@ namespace Penguin.ParserTools.Regex.AST
         {
             Node = node;
         }
+
+        public override void BuildTransitions(HashSet<RegexState> states, RegexState startState, RegexState endState)
+        {
+            Node.BuildTransitions(states, startState, endState);
+            startState.Add(endState);
+        }
     }
 }
