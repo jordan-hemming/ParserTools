@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Penguin.ParserTools.Parser
 {
+    /// <summary>
+    /// Base class for parser exceptions.
+    /// </summary>
     public class ParserException : Exception
     {
         public ParserException(string msg)
@@ -13,6 +16,9 @@ namespace Penguin.ParserTools.Parser
         }
     }
 
+    /// <summary>
+    /// Exception raised when invalid token is encountered in input stream.
+    /// </summary>
     public class InvalidTokenException : ParserException
     {
         public InvalidTokenException(int line, int col)
@@ -22,6 +28,11 @@ namespace Penguin.ParserTools.Parser
         }
     }
 
+    /// <summary>
+    /// Generic base exception raised by BaseParser.
+    /// </summary>
+    /// <typeparam name="TToken">Type representing tokens.</typeparam>
+    /// <typeparam name="TTokenType">Type representing variaties of token.</typeparam>
     public class ParserException<TToken, TTokenType> : ParserException
         where TToken: Token<TTokenType>
         where TTokenType: IEquatable<TTokenType>
@@ -33,6 +44,11 @@ namespace Penguin.ParserTools.Parser
         }
     }
 
+    /// <summary>
+    /// Exception raised when unexpected EOF encountered by BaseParser.
+    /// </summary>
+    /// <typeparam name="TToken">Type representing tokens.</typeparam>
+    /// <typeparam name="TTokenType">Type representing variaties of token.</typeparam>
     public class UnexpectedEndOfFileException<TToken, TTokenType> : ParserException<TToken, TTokenType>
         where TToken : Token<TTokenType>
         where TTokenType : IEquatable<TTokenType>
@@ -50,6 +66,11 @@ namespace Penguin.ParserTools.Parser
         }
     }
 
+    /// <summary>
+    /// Exception raised when unexpected token encountered by BaseParser.
+    /// </summary>
+    /// <typeparam name="TToken">Type representing tokens.</typeparam>
+    /// <typeparam name="TTokenType">Type representing variaties of token.</typeparam>
     public class UnexpectedTokenException<TToken, TTokenType> : ParserException<TToken, TTokenType>
         where TToken : Token<TTokenType>
         where TTokenType : IEquatable<TTokenType>

@@ -5,6 +5,9 @@ using Penguin.ParserTools.Regex.AST;
 
 namespace Penguin.ParserTools.Regex
 {
+    /// <summary>
+    /// Represents an internal state of a RegexFSM.
+    /// </summary>
     public class RegexState
     {
         private List<RegexStateTransition> _classTransitions = new List<RegexStateTransition>();

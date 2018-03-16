@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Penguin.ParserTools
 {
+    /// <summary>
+    /// Various utility functions for strings.
+    /// </summary>
     public static class StringUtilities
     {
         public static string Escape(this string s)

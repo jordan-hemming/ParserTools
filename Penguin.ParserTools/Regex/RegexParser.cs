@@ -6,6 +6,9 @@ using Penguin.ParserTools.Regex.AST;
 
 namespace Penguin.ParserTools.Regex
 {
+    /// <summary>
+    /// Parser for Regex expressions.
+    /// </summary>
     public class RegexParser : BaseParser<RegexToken, RegexTokenType>, IParser<RegexNode>
     {
         public RegexParser(IEnumerable<RegexToken> tokens)

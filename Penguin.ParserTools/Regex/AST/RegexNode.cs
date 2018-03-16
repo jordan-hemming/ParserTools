@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Penguin.ParserTools.Regex.AST
 {
+    /// <summary>
+    /// Base class representing complete Regex expression.
+    /// </summary>
     public abstract class RegexNode
     {
         public abstract void BuildTransitions(HashSet<RegexState> states, RegexState startState, RegexState endState);

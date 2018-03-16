@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Penguin.ParserTools
 {
+    /// <summary>
+    /// Various utility functions for characters.
+    /// </summary>
     public static class CharUtilities
     {
         public static bool IsHexDigit(char c, out int val)

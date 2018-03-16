@@ -6,6 +6,11 @@ using Penguin.ParserTools.Regex;
 
 namespace Penguin.ParserTools.Parser
 {
+    /// <summary>
+    /// Base class for Regex based tokenizers.
+    /// </summary>
+    /// <typeparam name="TToken">Type representing tokens in the token stream.</typeparam>
+    /// <typeparam name="TType">Type representing variaties of token.</typeparam>
     public abstract class BaseTokenizer<TToken, TType> : ITokenizer<TToken, TType>
         where TToken : Token<TType>
         where TType : IEquatable<TType>

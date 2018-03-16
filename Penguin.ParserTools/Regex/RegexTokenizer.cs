@@ -5,6 +5,9 @@ using Penguin.ParserTools.Parser;
 
 namespace Penguin.ParserTools.Regex
 {
+    /// <summary>
+    /// Tokenizer for Regex expressions.
+    /// </summary>
     public class RegexTokenizer : ITokenizer<RegexToken, RegexTokenType>
     {
         public IReadOnlyList<RegexToken> Tokenize(string input)

@@ -4,6 +4,11 @@ using System.Text;
 
 namespace Penguin.ParserTools.Parser
 {
+    /// <summary>
+    /// Base class for parsers.
+    /// </summary>
+    /// <typeparam name="TToken">Type representing tokens in the token stream.</typeparam>
+    /// <typeparam name="TType">Type representing variaties of token.</typeparam>
     public abstract class BaseParser<TToken, TType>
         where TToken: Token<TType> 
         where TType: IEquatable<TType>

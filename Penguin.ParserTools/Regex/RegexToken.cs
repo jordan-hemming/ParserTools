@@ -7,6 +7,9 @@ using Penguin.ParserTools.Regex.AST;
 
 namespace Penguin.ParserTools.Regex
 {
+    /// <summary>
+    /// Represents a token produced by the RegexTokenizer.
+    /// </summary>
     public class RegexToken : Token<RegexTokenType>
     {
         public char? NormalCharacter { get; }

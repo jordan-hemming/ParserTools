@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Penguin.ParserTools.Regex
 {
+    /// <summary>
+    /// Class representing complete Regex non-deterministic finite state machine.
+    /// </summary>
     public class RegexFSM
     {
         private HashSet<RegexState> _states;
