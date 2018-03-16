@@ -55,6 +55,8 @@ namespace Penguin.ParserTools.Regex
                     return new RegexToken(c, line, col, escapeCharacter: '(', otherSubTypes: RegexTokenSubType.OpenParan);
                 case ')':
                     return new RegexToken(c, line, col, escapeCharacter: ')', otherSubTypes: RegexTokenSubType.CloseParan);
+                case '|':
+                    return new RegexToken(c, line, col, escapeCharacter: '|', otherSubTypes: RegexTokenSubType.Choice);
                 case '-':
                     return new RegexToken(c, line, col, normalCharacter: '-', escapeCharacter: '-', otherSubTypes: RegexTokenSubType.Range);
                 case '^':
@@ -126,7 +128,8 @@ namespace Penguin.ParserTools.Regex
         ZeroOrOne = 0x2000,
         HexIndicator = 0x4000,
         UnicodeIndicator = 0x8000,
-        HexDigit = 0x10000
+        HexDigit = 0x10000,
+        Choice = 0x20000
     }
 
     public class RegexTokenType : IEquatable<RegexTokenType>

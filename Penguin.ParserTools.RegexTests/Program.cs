@@ -9,15 +9,16 @@ namespace Penguin.ParserTools.RegexTests
     {
         static void Main(string[] args)
         {
-            string intPattern = "[0-9]+";
+            string floatPattern = "[0-9]+\\.[0-9]+([eE][-+]?[0-9]+)?";
 
             var tokenizer = new RegexTokenizer();
-            var tokens = tokenizer.Tokenize(intPattern);
+            var tokens = tokenizer.Tokenize(floatPattern);
 
             foreach (var token in tokens)
-            {
                 Console.WriteLine(token.ToString(true));
-            }
+
+            var parser = new RegexParser(tokens);
+            var regex = parser.Parse();
             
             Console.ReadLine();
         }

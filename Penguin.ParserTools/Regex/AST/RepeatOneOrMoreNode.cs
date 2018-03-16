@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Penguin.ParserTools.Regex.AST
 {
-    class RepeatNode : RegexNode
+    class RepeatOneOrMoreNode : RegexNode
     {
         public RegexNode Node { get; }
 
-        public RepeatNode(RegexNode node)
+        public RepeatOneOrMoreNode(RegexNode node)
         {
             Node = node;
         }

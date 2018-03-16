@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Penguin.ParserTools.Regex.AST
 {
-    class ClassNode
+    class ClassNode : RegexNode
     {
         public CharacterClass CharacterClass { get; }
 

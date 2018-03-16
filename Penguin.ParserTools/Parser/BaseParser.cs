@@ -38,12 +38,18 @@ namespace Penguin.ParserTools.Parser
                 return null;
         }
 
-        protected TToken Peek(int n = 1)
+        protected TToken Peek(int n = 0)
         {
             if (_tokenIndex + n >= _tokens.Count)
                 return null;
             else
                 return _tokens[_tokenIndex + n];
+        }
+
+        protected bool Peek(TType type, int n = 0)
+        {
+            var token = Peek(n);
+            return token != null && token.Type.Equals(type);
         }
 
         protected void ExpectEOF()

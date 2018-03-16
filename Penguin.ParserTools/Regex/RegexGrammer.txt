@@ -1,0 +1,32 @@
+﻿# Regex Grammer Definition
+
+## Grammer
+
+Regex = Sequence { "|" Sequence }
+.
+
+Sequence = ArityNode { ArityNode }
+.
+
+ArityNode = Atom [ "+" | "*" | "?" ]
+.
+
+Atom = "(" Regex ")"
+	|	CharacterClass
+.
+
+CharacterClass = specialClass
+			|	"[" BoxClass "]"
+			|	"\" ( escapeClass | escapeCharacter )
+			|	normalCharacter
+.
+
+BoxClass = [ "^" ] [ "-" ] { BoxRange }
+.
+
+BoxRange = BoxCharacter [ "-" BoxCharacter ]
+.
+
+BoxCharacter =	"\" escapeCharacter
+			|	normalCharacter
+.

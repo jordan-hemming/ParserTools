@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Penguin.ParserTools.Parser
 {
-    public interface IParser<TResult, TToken, TTokenType>
-        where TToken: Token<TTokenType>
-        where TTokenType: IEquatable<TTokenType>
+    public interface IParser<TResult>
     {
-        TResult Parse(IReadOnlyList<TToken> tokens);
+        TResult Parse();
     }
 }

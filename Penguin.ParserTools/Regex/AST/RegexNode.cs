@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Penguin.ParserTools.Regex.AST
 {
-    abstract class RegexNode
+    public abstract class RegexNode
     {
 
     }
