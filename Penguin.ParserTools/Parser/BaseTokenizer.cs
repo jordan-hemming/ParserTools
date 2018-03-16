@@ -43,7 +43,7 @@ namespace Penguin.ParserTools.Parser
                 line += 1;
                 col = 1;
             }
-			while (_tokenDefintions.Any(x => x.Regex.LastResult != RegexResult.NotMatched))
+			while (_tokenDefintions.Any(x => x.Regex.LastResult != RegexResult.NotMatched) && index < input.Length)
             {
                 lastValidDefs = _tokenDefintions.Where(x => x.Regex.LastResult == RegexResult.Matched).ToList();
                 c = input[index++];
@@ -57,7 +57,10 @@ namespace Penguin.ParserTools.Parser
                 }
             }
             var resultTokenDef = lastValidDefs.OrderByDescending(x => x.Priority).First();
-            return CreateToken(resultTokenDef.Type, input.Substring(startAt, index - startAt), line, col);
+            if (resultTokenDef.Ignore)
+                return null;
+            else
+                return CreateToken(resultTokenDef.Type, input.Substring(startAt, index - startAt - (index < input.Length ? 1 : 0)), line, col);
         }
 
         public IReadOnlyList<TToken> Tokenize(string input)
@@ -67,7 +70,11 @@ namespace Penguin.ParserTools.Parser
             int line = 1;
             int col = 1;
             while (index < input.Length)
-                result.Add(TokenizeNext(input, ref index, ref line, ref col));
+            {
+                var token = TokenizeNext(input, ref index, ref line, ref col);
+                if (token != null)
+                    result.Add(token);
+            }
             return result;
         }
     }
