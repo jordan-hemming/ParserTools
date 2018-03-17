@@ -77,7 +77,9 @@ namespace Penguin.ParserTools.Parser
 			while (_tokenDefintions.Any(x => x.Regex.LastResult != RegexResult.NotMatched) && index < input.Length)
             {
                 //Match
-                lastValidDefs = _tokenDefintions.Where(x => x.Regex.LastResult == RegexResult.Matched).ToList();
+                var validDefs = _tokenDefintions.Where(x => x.Regex.LastResult == RegexResult.Matched).ToList();
+                if (validDefs.Count > 0)
+                    lastValidDefs = validDefs;
                 c = input[index++];
                 foreach (var tokenDef in _tokenDefintions)
                     tokenDef.Regex.Match(c);
@@ -102,7 +104,9 @@ namespace Penguin.ParserTools.Parser
             }
 
             //Get result token (or null for ignored tokens)
-            var resultTokenDef = lastValidDefs.OrderByDescending(x => x.Priority).First();
+            var resultTokenDef = lastValidDefs.OrderByDescending(x => x.Priority).FirstOrDefault();
+            if (resultTokenDef == null)
+                throw new InvalidTokenException(startLine, startCol);
             if (resultTokenDef.Ignore)
                 return null;
             var text = input.Substring(startAt, index - startAt);
