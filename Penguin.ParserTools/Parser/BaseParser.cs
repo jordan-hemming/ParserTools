@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Penguin.ParserTools.Parser
@@ -82,6 +83,18 @@ namespace Penguin.ParserTools.Parser
         {
             var token = Peek(n);
             return token != null && token.Type.Equals(type);
+        }
+
+        /// <summary>
+        /// Checks if the nth token in the token list if one of the specified types.
+        /// </summary>
+        /// <param name="types">The types to check the token against.</param>
+        /// <param name="n">The nth token in the token list.</param>
+        /// <returns>True if the token is one of the specified type.</returns>
+        protected bool Peek(IEnumerable<TType> types, int n = 0)
+        {
+            var token = Peek(n);
+            return token != null && types.Contains(token.Type);
         }
 
         /// <summary>

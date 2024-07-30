@@ -73,7 +73,7 @@ namespace Penguin.ParserTools.Parser
                 col = 1;
             }
 
-            //Match addition characters
+            //Match additional characters
 			while (_tokenDefintions.Any(x => x.Regex.LastResult != RegexResult.NotMatched) && index < input.Length)
             {
                 //Match
@@ -94,9 +94,13 @@ namespace Penguin.ParserTools.Parser
                     col = 1;
                 }
             }
+            
+            var finalValidDefs = _tokenDefintions.Where(x => x.Regex.LastResult == RegexResult.Matched).ToList();
+            if (finalValidDefs.Count > 0)
+                lastValidDefs = finalValidDefs;
 
             //Backtrack
-            if (index < input.Length)
+            if (_tokenDefintions.All(x => x.Regex.LastResult == RegexResult.NotMatched))
             {
                 index -= 1;
                 line = lastLine;
